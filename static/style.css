@@ -60,14 +60,27 @@ body {
 }
 .cover .btn-lg {
   padding: .75rem 1.25rem;
-  font-weight: 700;
+  font-weight: 900;
 }
 
-.btn76{
+.btn76 {
     width: 4.5rem;
     margin: 0 0.5rem;
+    color: #333;
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-color: #b28023;
+    border-bottom-style: solid;
+    border-bottom-width: 8px;
+    transition: all .2s;
 }
 
+.btn76:hover {
+    position: relative;
+    top: 4px;
+    border-bottom-width: 4px;
+}
 /*
  * Footer
  */
