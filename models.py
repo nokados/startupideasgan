@@ -1,16 +1,16 @@
 from app import db
 
-class Flaskr(db.Model):
+class Idea(db.Model):
 
-    __tablename__ = "flaskr"
+    __tablename__ = "ideas"
 
-    post_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String, nullable=False)
+    rating = db.Column(db.Integer, default=0)
+    num_rates = db.Column(db.Integer, default=0)
 
-    def __init__(self, title, text):
-        self.title = title
-        self.text = text
+    # def __init__(self, text):
+    #     self.text = text
 
     def __repr__(self):
-        return '<title {}>'.format(self.body)
+        return '<Idea #{}: {} ({}/{}).>'.format(self.id, self.text, self.rating, self.num_rates)
