@@ -13,5 +13,4 @@ DATABASE_PATH = os.path.join(basedir, DATABASE)
 
 # database config
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE_PATH
-SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
