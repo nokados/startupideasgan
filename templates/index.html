@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Flaskr</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Nikita Furin (nokados)">
+  <title>Startup ideas generator based on GAN</title>
   <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <!-- Bootstrap core CSS -->
@@ -16,12 +20,12 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
       <header class="masthead mb-auto">
         <div class="inner">
-          <h4 class="masthead-brand">startups</h4>
+          <h4 class="masthead-brand h4-responsive">startups</h4>
         </div>
       </header>
 
       <main role="main" class="inner cover">
-        <h1 id="cover-heading" class="animated jackInTheBox">{{ideas[0]}}</h1>
+        <h2 id="cover-heading" class="h2-responsive animated jackInTheBox">{{ideas[0]}}</h2>
         <div id="loading">
             <div class="spinner-grow text-warning" role="status">
               <span class="sr-only">Loading...</span>
@@ -38,9 +42,9 @@
       <footer class="mastfoot mt-auto">
         <div class="inner">
         <p class="lead managebuttons">
-            <a href="#" id="thumbs_down" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-thumbs-down"></i></a>
-            <a href="#" id="skip" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-forward"></i></a>
-            <a href="#" id="thumbs_up" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-thumbs-up"></i></a>
+            <button id="thumbs_down" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-thumbs-down"></i></button>
+            <button id="skip" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-forward"></i></button>
+            <button id="thumbs_up" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-thumbs-up"></i></button>
         </p>
           <p>The website was developed by nokados <a href="mailto:nokados@yandex.ru">nokados@yandex.ru</a></p>
         </div>
@@ -52,7 +56,7 @@
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script> -->
 <!-- Bootstrap core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->

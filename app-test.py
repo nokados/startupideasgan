@@ -42,7 +42,7 @@ class FlaskrTestCase(unittest.TestCase):
     def test_index(self):
         """Ensure that a main view shows an idea within <h1></h1>"""
         rv = self.app.get('/')
-        self.assertTrue(re.search(r'idea\d\<\/h1\>', rv.data.decode("utf-8")))
+        self.assertTrue(re.search(r'idea\d\<\/h2\>', rv.data.decode("utf-8")))
         
     def test_get_ideas(self):
         """Ensure that a user can get ideas."""

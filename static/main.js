@@ -7,9 +7,10 @@ $( document ).ready(function() {
         });
     })
     
-    var cover_header_class_ =  $('#cover-heading').attr("class")
+    var cover_header_classes_ =  $('#cover-heading').attr("class").split(' ')
+    var cover_animated = cover_header_classes_.slice(cover_header_classes_.indexOf('animated')).join(' ');
     $('#cover-heading').one(animation_end, function() {
-        $(this).removeClass();
+        $(this).removeClass(cover_animated);
     });
 
     var num_of_ideas = 5;
@@ -18,9 +19,9 @@ $( document ).ready(function() {
     function set_idea(idea) {
         var header = $('#cover-heading')
         header.text(idea);
-        header.addClass(cover_header_class_);
+        header.addClass(cover_animated);
         header.one(animation_end, function() {
-            $(this).removeClass();
+            $(this).removeClass(cover_animated);
         });
     }
     
