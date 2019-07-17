@@ -27,7 +27,7 @@ def _get_ideas():
 def get_ideas():
     """Get ideas from a database."""
     ideas = _get_ideas()
-    return jsonify(ideas)
+    return jsonify({'ideas': ideas})
 
 if __name__ == '__main__':
     DEBUG = True
