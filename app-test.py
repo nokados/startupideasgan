@@ -1,6 +1,7 @@
 from app import app, db
-import os
+import os, re
 import json
+from models import Idea
 
 import unittest
 
@@ -22,80 +23,33 @@ class BasicTestCase(unittest.TestCase):
 class FlaskrTestCase(unittest.TestCase):
     
     def setUp(self):
-        """Set up a blank temp database before each test"""
+        """Set up a temp database before each test"""
         basedir = os.path.abspath(os.path.dirname(__file__))
         app.config['TESTING'] = True
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-            os.path.join(basedir, TEST_DB)
+        self.test_db_path = os.path.join(basedir, TEST_DB)
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + self.test_db_path
         self.app = app.test_client()
         db.create_all()
-    
+        fixtures = [Idea(text=f'idea{i}') for i in range(5)]
+        db.session.bulk_save_objects(fixtures)
+        db.session.commit()
     
     def tearDown(self):
         """Destroy blank temp database after each test"""
         db.drop_all()
+        os.remove(self.test_db_path)
     
-    
-    def login(self, username, password):
-        """Login helper function"""
-        return self.app.post('/login', data=dict(
-            username=username,
-            password=password
-        ), follow_redirects=True)
-     
-        
-    def logout(self):
-        """Logout helper function."""
-        return self.app.get('/logout', follow_redirects=True)
-    
-    
-    def test_empty_db(self):
-        """Ensure database is blank"""
+    def test_index(self):
+        """Ensure that a main view shows an idea within <h1></h1>"""
         rv = self.app.get('/')
-        self.assertIn(b'No entries yet. Add some!', rv.data)
-    
-    
-    def test_login_logout(self):
-        """Test login and logout using helper functions."""
-        rv = self.login(
-            app.config['USERNAME'],
-            app.config['PASSWORD']
-        )
-        self.assertIn(b'You were logged in', rv.data)
-        rv = self.logout()
-        self.assertIn(b'You were logged out', rv.data)
-        rv = self.login(
-            app.config['USERNAME'] + 'x',
-            app.config['PASSWORD']
-        )
-        self.assertIn(b'Invalid username', rv.data)
-        rv = self.login(
-            app.config['USERNAME'],
-            app.config['PASSWORD'] + 'x'
-        )
-        self.assertIn(b'Invalid password', rv.data)
-
-
-    def test_messages(self):
-        """Ensure that a user can post messages."""
-        self.login(
-            app.config['USERNAME'],
-            app.config['PASSWORD']
-        )
-        rv = self.app.post('/add', data=dict(
-            title='<Hello>',
-            text='<strong>HTML</strong> allowed here'
-        ), follow_redirects=True)
-        self.assertNotIn(b'No entries here so far', rv.data)
-        self.assertIn(b'&lt;Hello&gt;', rv.data)
-        self.assertIn(b'<strong>HTML</strong> allowed here', rv.data)
-    
-    
-    def test_delete_message(self):
-        """Ensure the messages are being deleted."""
-        rv = self.app.get('/delete/1')
+        self.assertTrue(re.search(r'idea\d\<\/h1\>', rv.data.decode("utf-8")))
+        
+    def test_get_ideas(self):
+        """Ensure that a user can get ideas."""
+        rv = self.app.post('/get_ideas', follow_redirects=True)
         data = json.loads((rv.data).decode('utf-8'))
-        self.assertEqual(data['status'], 1)
+        self.assertIn('ideas', data)
+        self.assertEqual([f'idea{i}' for i in range(5)], sorted(data['ideas']))
 
 if __name__ == '__main__':
     unittest.main()
