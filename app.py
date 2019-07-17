@@ -16,7 +16,6 @@ import models
 @app.route('/')
 def index():
     """Searches the database for entries, then displays them."""
-    ideas = db.session.query(models.Idea)
     return render_template('index.html', ideas=_get_ideas())
 
 def _get_ideas():
@@ -28,6 +27,22 @@ def get_ideas():
     """Get ideas from a database."""
     ideas = _get_ideas()
     return jsonify({'ideas': ideas})
+
+@app.route('/rate', methods=['POST'])
+def rate():
+    fail = jsonify({'status': 0})
+    if not 'id' in request.form or not 'field' in request.form:
+        return fail
+    idea_id = request.form['id']
+    field = request.form['field']
+    if field not in {'likes', 'dislikes', 'skips'}:
+        return fail
+    idea = db.session.query(models.Idea).get(idea_id)
+    if idea is None:
+        return fail
+    setattr(idea, field, getattr(models.Idea, field) + 1)
+    db.session.commit()
+    return jsonify({'status': 1})
 
 if __name__ == '__main__':
     DEBUG = True

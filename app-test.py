@@ -50,6 +50,42 @@ class FlaskrTestCase(unittest.TestCase):
         data = json.loads((rv.data).decode('utf-8'))
         self.assertIn('ideas', data)
         self.assertEqual([f'idea{i}' for i in range(5)], sorted(data['ideas']))
+        
+    def test_rate(self):
+        """Ensure that rating works."""
+        
+        # Invalid params
+        rv = self.app.post('/rate', data={'field': 'likes'}, follow_redirects=True)
+        data = json.loads((rv.data).decode('utf-8'))
+        self.assertEqual({'status': 0}, data)
+        
+        # Invalid field
+        rv = self.app.post('/rate', data={'id': 1, 'field': 'herks'}, follow_redirects=True)
+        data = json.loads((rv.data).decode('utf-8'))
+        self.assertEqual({'status': 0}, data)
+        
+        # Invalid id
+        rv = self.app.post('/rate', data={'id': 100, 'field': 'likes'}, follow_redirects=True)
+        data = json.loads((rv.data).decode('utf-8'))
+        self.assertEqual({'status': 0}, data)
+        
+        
+        self.assertEqual(0, Idea.query.get(1).likes)
+        rv = self.app.post('/rate', data={'id': 1, 'field': 'likes'}, follow_redirects=True)
+        data = json.loads((rv.data).decode('utf-8'))
+        self.assertEqual({'status': 1}, data)
+        self.assertEqual(1, Idea.query.get(1).likes)
+        rv = self.app.post('/rate', data={'id': 2, 'field': 'dislikes'}, follow_redirects=True)
+        self.assertEqual(1, Idea.query.get(2).dislikes)
+        rv = self.app.post('/rate', data={'id': 3, 'field': 'skips'}, follow_redirects=True)
+        self.assertEqual(1, Idea.query.get(3).skips)
+        rv = self.app.post('/rate', data={'id': 1, 'field': 'likes'}, follow_redirects=True)
+        self.assertEqual(2, Idea.query.get(1).likes)
+        rv = self.app.post('/rate', data={'id': 1, 'field': 'skips'}, follow_redirects=True)
+        self.assertEqual(2, Idea.query.get(1).likes)
+        self.assertEqual(0, Idea.query.get(1).dislikes)
+        self.assertEqual(1, Idea.query.get(1).skips)
+
 
 if __name__ == '__main__':
     unittest.main()

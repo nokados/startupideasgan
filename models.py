@@ -6,11 +6,10 @@ class Idea(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String, nullable=False)
-    rating = db.Column(db.Integer, default=0)
-    num_rates = db.Column(db.Integer, default=0)
-
-    # def __init__(self, text):
-    #     self.text = text
+    
+    likes = db.Column(db.Integer, default=0)
+    dislikes = db.Column(db.Integer, default=0)
+    skips = db.Column(db.Integer, default=0)
 
     def __repr__(self):
-        return '<Idea #{}: {} ({}/{}).>'.format(self.id, self.text, self.rating, self.num_rates)
+        return '<Idea #{}: {} ({}l/{}d/{}s).>'.format(self.id, self.text, self.likes, self.dislikes, self.skips)
