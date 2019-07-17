@@ -21,12 +21,12 @@
       </header>
 
       <main role="main" class="inner cover">
-        <h3 class="cover-heading">{{ideas[0]}}</h3>
+        <h3 id="cover-heading" class="animated jackInTheBox">{{ideas[0]}}</h3>
         <p class="lead"></p>
         <p class="lead">
-            <a href="#" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-thumbs-down"></i></a>
-            <a href="#" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-forward"></i></a>
-            <a href="#" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-thumbs-up"></i></a>
+            <a href="#" id="thumbs_down" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-thumbs-down"></i></a>
+            <a href="#" id="skip" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-forward"></i></a>
+            <a href="#" id="thumbs_up" style="display:inline-block" class="btn btn-lg btn-warning rounded btn76"><i class="fas fa-thumbs-up"></i></a>
         </p>
       </main>
 
@@ -35,7 +35,10 @@
           <p>The website was developed by nokados <a href="mailto:nokados@yandex.ru">nokados@yandex.ru</a></p>
         </div>
       </footer>
-  </div>    
+  </div>
+<script>
+    var ideas = {{ideas|tojson}};
+</script>
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
