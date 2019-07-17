@@ -18,7 +18,8 @@ $( document ).ready(function() {
 
     function set_idea(idea) {
         var header = $('#cover-heading')
-        header.text(idea);
+        header.text(idea['text']);
+        $('#idea_id').val(idea['id'])
         header.addClass(cover_animated);
         header.one(animation_end, function() {
             $(this).removeClass(cover_animated);
@@ -78,5 +79,17 @@ $( document ).ready(function() {
         set_idea(cur); // ideas are firstly initialized in index.html 
     }
     
-    $('#skip').click(show_next_idea)
+    function rate(field) {
+        var idea_id = parseInt($('#idea_id').val());
+        $.post('/rate', {'id': idea_id, 'field': field}).done(function(response) {
+                console.log('Rate request status:', response['status']);
+            }).fail(function() {
+                console.error('Error during rating');
+            });
+    }
+    
+    $(".btn76").click(show_next_idea)
+    $('#thumbs_up').click(function() {rate('likes')})
+    $('#thumbs_down').click(function() {rate('dislikes')})
+    $('#skip').click(function() {rate('skips')})
 });

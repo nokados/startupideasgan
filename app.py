@@ -20,7 +20,7 @@ def index():
 
 def _get_ideas():
     ideas = db.session.query(models.Idea).order_by(func.random()).limit(app.config['IDEAS_PER_REQUEST'])
-    return [i.text for i in ideas]
+    return [{'text': i.text, 'id': i.id} for i in ideas]
     
 @app.route('/get_ideas', methods=['POST'])
 def get_ideas():

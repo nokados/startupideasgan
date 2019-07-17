@@ -42,14 +42,16 @@ class FlaskrTestCase(unittest.TestCase):
     def test_index(self):
         """Ensure that a main view shows an idea within <h1></h1>"""
         rv = self.app.get('/')
-        self.assertTrue(re.search(r'idea\d\<\/h2\>', rv.data.decode("utf-8")))
+        data = rv.data.decode("utf-8")
+        self.assertTrue(re.search(r'idea\d\<\/h2\>', data))
+        self.assertTrue(re.search(r'input type="hidden" id="idea_id" value="\d"', data))
         
     def test_get_ideas(self):
         """Ensure that a user can get ideas."""
         rv = self.app.post('/get_ideas', follow_redirects=True)
         data = json.loads((rv.data).decode('utf-8'))
         self.assertIn('ideas', data)
-        self.assertEqual([f'idea{i}' for i in range(5)], sorted(data['ideas']))
+        self.assertEqual([{'text': f'idea{i}', 'id': i+1} for i in range(5)], sorted(data['ideas'], key=lambda x: x['id']))
         
     def test_rate(self):
         """Ensure that rating works."""

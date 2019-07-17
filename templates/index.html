@@ -25,7 +25,8 @@
       </header>
 
       <main role="main" class="inner cover">
-        <h2 id="cover-heading" class="h2-responsive animated jackInTheBox">{{ideas[0]}}</h2>
+        <h2 id="cover-heading" class="h2-responsive animated jackInTheBox">{{ideas[0].text}}</h2>
+        <input type="hidden" id="idea_id" value="{{ideas[0].id}}"/>
         <div id="loading">
             <div class="spinner-grow text-warning" role="status">
               <span class="sr-only">Loading...</span>
