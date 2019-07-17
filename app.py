@@ -20,7 +20,10 @@ def index():
 
 def _get_ideas():
     ideas = db.session.query(models.Idea).order_by(func.random()).limit(app.config['IDEAS_PER_REQUEST'])
-    return [{'text': i.text, 'id': i.id} for i in ideas]
+    ideas = [{'text': i.text, 'id': i.id} for i in ideas]
+    if not ideas:
+        ideas = [{'text': 'No ideas in a database', 'id': -1}]
+    return ideas
     
 @app.route('/get_ideas', methods=['POST'])
 def get_ideas():
@@ -45,5 +48,4 @@ def rate():
     return jsonify({'status': 1})
 
 if __name__ == '__main__':
-    DEBUG = True
-    app.run(debug = DEBUG)
+    app.run(debug = False)
